@@ -1,5 +1,5 @@
 import unittest
-from jsonbox import JsonBox
+from jsonbox.jsonbox import JsonBox
 
 TEST_BOX_ID = "test_gywvcu8ew7t7gascbascbuwd"
 TEST_COLLECTION_ID = "collection_427453"
