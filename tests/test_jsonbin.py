@@ -1,5 +1,5 @@
 import unittest
-from jsonbin import JsonBin
+from jsonbox import JsonBox
 
 TEST_BOX_ID = "test_gywvcu8ew7t7gascbascbuwd"
 TEST_COLLECTION_ID = "collection_427453"
@@ -10,9 +10,9 @@ TEST_DATA_KEY_2 = "ccc"
 TEST_DATA_VALUE_2 = "ddd"
 
 
-class MyTestCase(unittest.TestCase):
+class TestJsonBox(unittest.TestCase):
     def setUp(self):
-        self.jb = JsonBin()
+        self.jb = JsonBox()
 
     def test_read_record(self):
         json_data = self.jb.read(TEST_BOX_ID, "5d80031fca4f06001791fb28")

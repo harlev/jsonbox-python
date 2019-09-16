@@ -2,8 +2,7 @@ import json
 import requests
 
 
-
-class JsonBin:
+class JsonBox:
     RECORD_ID_KEY = "_id"
 
     def __init__(self, service_host="https://jsonbox.io"):
