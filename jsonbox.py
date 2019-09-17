@@ -55,7 +55,16 @@ class JsonBox:
         else:
             return False
 
-    def delete(self, box_id, record_id):
+    def delete(self, box_id, record_ids):
+        if isinstance(record_ids, list):
+            result = []
+            for record_id in record_ids:
+                result.append(self._delete_one(box_id, record_id))
+            return result
+        else:
+            return self._delete_one(box_id, record_ids)
+
+    def _delete_one(self, box_id, record_id):
         url = self._get_url(box_id, record_id)
 
         response = requests.delete(url)
