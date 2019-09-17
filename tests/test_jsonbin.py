@@ -110,6 +110,20 @@ class TestJsonBox(unittest.TestCase):
         result = self.jb.read(TEST_BOX_ID, record_id)
         self.assertFalse(result)
 
+    def test_delete_list(self):
+        data = [{TEST_DATA_KEY_1: TEST_DATA_VALUE_1}, {TEST_DATA_KEY_2: TEST_DATA_VALUE_2}]
+        json_data = self.jb.write(data, TEST_BOX_ID)
+        self.assertIsNotNone(json_data)
+        self.assertEqual(json_data[0][TEST_DATA_KEY_1], TEST_DATA_VALUE_1)
+
+        record_ids = self.jb.get_record_id(json_data)
+
+        json_data = self.jb.delete(TEST_BOX_ID, record_ids)
+        self.assertIsNotNone(json_data)
+
+        result = self.jb.read(TEST_BOX_ID, record_ids[0])
+        self.assertFalse(result)
+
 
 if __name__ == '__main__':
     unittest.main()
