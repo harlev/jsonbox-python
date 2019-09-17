@@ -2,6 +2,9 @@
 Python wrapper for https://jsonbox.io
 
 [![PyPI version](https://badge.fury.io/py/jsonbox.svg)](https://badge.fury.io/py/jsonbox)
+<a href="https://github.com/harlev/jsonbox-python/blob/master/LICENSE">
+    <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-yellow.svg" target="_blank" />
+</a>
 
 ## Installation
     pip install jsonbox
