@@ -1,6 +1,8 @@
 # jsonbox-python
 Python wrapper for https://jsonbox.io
 
+[![PyPI version](https://badge.fury.io/py/jsonbox.svg)](https://badge.fury.io/py/jsonbox)
+
 ## Installation
     pip install jsonbox
     
