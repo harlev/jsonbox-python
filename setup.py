@@ -4,7 +4,7 @@ setup(
     name='jsonbox',
     description='Python wrapper for jsonbox.io',
     url='https://github.com/harlev/jsonbox-python',
-    version='0.1.2',
+    version='0.1.3',
     packages=['.'],
     license='MIT',
     long_description=open('README.md').read(),
