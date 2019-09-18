@@ -1,4 +1,5 @@
 import requests
+from urllib import parse
 
 
 class JsonBox:
@@ -7,14 +8,42 @@ class JsonBox:
     def __init__(self, service_host="https://jsonbox.io"):
         self.service_host = service_host
 
-    def _get_url(self, box_id, collection_or_record=None, sort_by=None):
+    def _get_url(self,
+                 box_id,
+                 collection_or_record=None,
+                 sort_by=None,
+                 skip=None,
+                 limit=None,
+                 query_key=None,
+                 query_value=None,
+                 query_type=None):
         url = "{0}/{1}".format(self.service_host, box_id)
 
         if collection_or_record:
             url = "{0}/{1}".format(url, collection_or_record)
 
+        params = {}
         if sort_by:
-            url = "{0}?sort={1}".format(url, sort_by)
+            params["sort"] = sort_by
+
+        if skip:
+            params["skip"] = skip
+
+        if limit:
+            params["limit"] = limit
+
+        if query_key:
+            params["query_key"] = query_key
+
+        if query_value:
+            params["query_value"] = query_value
+
+        if query_type:
+            params["query_type"] = query_type
+
+        if len(params.keys()) > 0:
+            param_str = parse.urlencode(params)
+            url = "{0}?{1}".format(url, param_str)
 
         return url
 
