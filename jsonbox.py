@@ -14,9 +14,7 @@ class JsonBox:
                  sort_by=None,
                  skip=None,
                  limit=None,
-                 query_key=None,
-                 query_value=None,
-                 query_type=None):
+                 query=None):
         url = "{0}/{1}".format(self.service_host, box_id)
 
         if collection_or_record:
@@ -32,14 +30,8 @@ class JsonBox:
         if limit:
             params["limit"] = limit
 
-        if query_key:
-            params["query_key"] = query_key
-
-        if query_value:
-            params["query_value"] = query_value
-
-        if query_type:
-            params["query_type"] = query_type
+        if query:
+            params["q"] = query
 
         if len(params.keys()) > 0:
             param_str = parse.urlencode(params)
@@ -53,8 +45,14 @@ class JsonBox:
         else:
             return data[self.RECORD_ID_KEY]
 
-    def read(self, box_id, collection_or_record=None, sort_by=None):
-        url = self._get_url(box_id, collection_or_record, sort_by)
+    def read(self,
+             box_id,
+             collection_or_record=None,
+             sort_by=None,
+             skip=None,
+             limit=None,
+             query=None):
+        url = self._get_url(box_id, collection_or_record, sort_by, skip, limit, query)
 
         response = requests.get(url)
         if response.ok:
