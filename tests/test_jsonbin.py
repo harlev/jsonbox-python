@@ -55,6 +55,43 @@ class TestJsonBox(unittest.TestCase):
         for record_id in record_ids:
             self.jb.delete(box_id, record_id)
 
+    def test_read_limit(self):
+        data = [{"name": "first", "age": "25"}, {"name": "second", "age": "19"}]
+        box_id = TEST_BOX_ID + "_limit"
+        result = self.jb.write(data, box_id)
+        record_ids = self.jb.get_record_id(result)
+
+        json_data = self.jb.read(box_id, limit=1)
+        self.assertIsNotNone(json_data)
+        self.assertTrue(isinstance(json_data, list))
+        self.assertEqual(len(json_data), 1)
+
+        # cleanup
+        for record_id in record_ids:
+            self.jb.delete(box_id, record_id)
+
+    def test_read_query(self):
+        data = [{"name": "first", "age": 25}, {"name": "second", "age": 19}]
+        box_id = TEST_BOX_ID + "_query"
+        result = self.jb.write(data, box_id)
+        record_ids = self.jb.get_record_id(result)
+
+        json_data = self.jb.read(box_id, query="name:firs*")
+        self.assertIsNotNone(json_data)
+        self.assertTrue(isinstance(json_data, list))
+        self.assertEqual(len(json_data), 1)
+        self.assertEqual(json_data[0]["name"], "first")
+
+        json_data = self.jb.read(box_id, query="age:=19")
+        self.assertIsNotNone(json_data)
+        self.assertTrue(isinstance(json_data, list))
+        self.assertEqual(len(json_data), 1)
+        self.assertEqual(json_data[0]["name"], "second")
+
+        # cleanup
+        for record_id in record_ids:
+            self.jb.delete(box_id, record_id)
+
     def test_write_box(self):
         data = {
             TEST_DATA_KEY_1: TEST_DATA_VALUE_1
