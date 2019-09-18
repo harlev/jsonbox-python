@@ -1,5 +1,5 @@
 import requests
-from urllib import parse
+from six.moves.urllib import parse
 
 
 class JsonBox:
