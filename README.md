@@ -59,6 +59,39 @@ print(jb.read(MY_BOX_ID, record_ids[0]))
 jb.delete(MY_BOX_ID, record_ids)
 ```
 
+## Query Params
+As supported (and documented) by https://github.com/vasanthv/jsonbox
+
+You can query by constructing a query string and passing it to the `query` parameter:
+```
+name:arya%20stark,age:>13
+```
+The above sample will look for the name `arya stark` and age greater than 13. 
+
+You can filter on `Number`, `String` & `Boolean` values only.
+
+#### Filters for Numeric values.
+
+|                                                                      | Sample                       |
+|----------------------------------------------------------------------|------------------------------|
+| To filter values greater than or less than a specific value          | `q=age:>10` or `q=age:<10`   |
+| To filter values greater (or less) than or equal to a specific value | `q=age:>=10` or `q=age:<=10` |
+| To filter values that match a specific value.                        | `q=age:=10`                  |
+
+#### Filters for String values.
+
+|                                                                    | Sample              |
+|--------------------------------------------------------------------|---------------------|
+| Filter values that start with a specific string                    | `q=name:arya*`      |
+| Filter values that end with a specific string                      | `q=name:*stark`     |
+| Filter values where a specific string appears anywhere in a string | `q=name:*ya*`       |
+| Filter values that match a specific string                         | `q=name:arya%20stark` |
+
+You can combine multiple fields by separating them with commas as shown below:
+```
+name:arya%20stark,age:>13,isalive:true
+```
+
 
 ## License
 MIT
