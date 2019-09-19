@@ -92,6 +92,11 @@ You can combine multiple fields by separating them with commas as shown below:
 name:arya%20stark,age:>13,isalive:true
 ```
 
+## Use your own instance of jsonbox
+```
+jb = JsonBox(service_host="https://my-jsonbox-server.com")
+```
+
 
 ## License
 MIT
