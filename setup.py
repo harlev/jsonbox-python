@@ -11,7 +11,7 @@ setup(
     license='MIT',
     long_description=open('README.md').read(),
     long_description_content_type="text/markdown",
-    install_requires=['requests'],
+    install_requires=['requests', 'six'],
     python_requires='>=2.7',
     classifiers=[
         "License :: OSI Approved :: MIT License",
