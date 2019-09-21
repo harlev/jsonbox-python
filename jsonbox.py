@@ -55,31 +55,19 @@ class JsonBox:
         url = self._get_url(box_id, collection_or_record, sort_by, skip, limit, query)
 
         response = requests.get(url)
-        if response.ok:
-            json_data = response.json()
-            return json_data
-        else:
-            return False
+        return self._check_response(response)
 
     def write(self, data, box_id, collection=None):
         url = self._get_url(box_id, collection)
 
         response = requests.post(url, json=data)
-        if response.ok:
-            json_data = response.json()
-            return json_data
-        else:
-            return False
+        return self._check_response(response)
 
     def update(self, data, box_id, record_id):
         url = self._get_url(box_id, record_id)
 
         response = requests.put(url, json=data)
-        if response.ok:
-            json_data = response.json()
-            return json_data
-        else:
-            return False
+        return self._check_response(response)
 
     def delete(self, box_id, record_ids):
         if isinstance(record_ids, list):
@@ -94,6 +82,9 @@ class JsonBox:
         url = self._get_url(box_id, record_id)
 
         response = requests.delete(url)
+        return self._check_response(response)
+
+    def _check_response(self, response):
         if response.ok:
             json_data = response.json()
             return json_data
