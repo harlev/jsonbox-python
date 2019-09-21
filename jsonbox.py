@@ -89,4 +89,4 @@ class JsonBox:
             json_data = response.json()
             return json_data
         else:
-            return False
+            raise ValueError(str(response.text))
