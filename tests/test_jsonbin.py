@@ -30,10 +30,15 @@ class TestJsonBox(unittest.TestCase):
         self.assertEqual(ids, 1,)
 
     def test_read_record(self):
-        json_data = self.jb.read(TEST_BOX_ID, "5d80031fca4f06001791fb28")
+        data = {"name": "first", "age": 25}
+        box_id = TEST_BOX_ID + "_query"
+        result = self.jb.write(data, box_id)
+        record_id = self.jb.get_record_id(result)
+
+        json_data = self.jb.read(box_id, record_id)
         self.assertIsNotNone(json_data)
         self.assertFalse(isinstance(json_data, list))
-        print(json_data)
+        self.assertEqual(json_data["name"], data["name"])
 
     def test_read_box(self):
         json_data = self.jb.read(TEST_BOX_ID)
@@ -144,8 +149,7 @@ class TestJsonBox(unittest.TestCase):
         json_data = self.jb.delete(TEST_BOX_ID, record_id)
         self.assertIsNotNone(json_data)
 
-        result = self.jb.read(TEST_BOX_ID, record_id)
-        self.assertFalse(result)
+        self.assertRaises(ValueError, self.jb.read, TEST_BOX_ID, record_id )
 
     def test_delete_list(self):
         data = [{TEST_DATA_KEY_1: TEST_DATA_VALUE_1}, {TEST_DATA_KEY_2: TEST_DATA_VALUE_2}]
@@ -158,8 +162,7 @@ class TestJsonBox(unittest.TestCase):
         json_data = self.jb.delete(TEST_BOX_ID, record_ids)
         self.assertIsNotNone(json_data)
 
-        result = self.jb.read(TEST_BOX_ID, record_ids[0])
-        self.assertFalse(result)
+        self.assertRaises(ValueError, self.jb.read, TEST_BOX_ID, record_ids[0])
 
 
 if __name__ == '__main__':
