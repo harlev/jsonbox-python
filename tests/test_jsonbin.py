@@ -5,10 +5,10 @@ from jsonbox import JsonBox
 TEST_BOX_ID = str(uuid.uuid4()).replace("-", "_")
 TEST_COLLECTION_ID = "collection_427453"
 TEST_RECORD_ID = "test_sjdgfygsf2347623564twfgyu"
-TEST_DATA_KEY_1 = "aaa"
-TEST_DATA_VALUE_1 = "bbb"
-TEST_DATA_KEY_2 = "ccc"
-TEST_DATA_VALUE_2 = "ddd"
+TEST_DATA_KEY_1 = "gjsfdjghdjs"
+TEST_DATA_VALUE_1 = "cbzmnxbc"
+TEST_DATA_KEY_2 = "po[poiioip"
+TEST_DATA_VALUE_2 = "yiyuynkjbb"
 
 
 class TestJsonBox(unittest.TestCase):
@@ -163,6 +163,26 @@ class TestJsonBox(unittest.TestCase):
         self.assertIsNotNone(json_data)
 
         self.assertRaises(ValueError, self.jb.read, TEST_BOX_ID, record_ids[0])
+
+    def test_delete_query(self):
+        data = [{TEST_DATA_KEY_1: TEST_DATA_VALUE_1}, {TEST_DATA_KEY_2: TEST_DATA_VALUE_2}]
+        json_data = self.jb.write(data, TEST_BOX_ID)
+        self.assertIsNotNone(json_data)
+        self.assertEqual(len([record for record in json_data if TEST_DATA_KEY_1 in record and record[TEST_DATA_KEY_1] == TEST_DATA_VALUE_1]), 1)
+        self.assertEqual(len([record for record in json_data if TEST_DATA_KEY_2 in record and record[TEST_DATA_KEY_2] == TEST_DATA_VALUE_2]), 1)
+
+        json_data = self.jb.read(TEST_BOX_ID)
+        self.assertEqual(len([record for record in json_data if TEST_DATA_KEY_1 in record and record[TEST_DATA_KEY_1] == TEST_DATA_VALUE_1]), 1)
+        self.assertEqual(len([record for record in json_data if TEST_DATA_KEY_2 in record and record[TEST_DATA_KEY_2] == TEST_DATA_VALUE_2]), 1)
+
+        query = "{0}:{1}".format(TEST_DATA_KEY_2, TEST_DATA_VALUE_2[:4] + "*")
+
+        json_data = self.jb.delete(TEST_BOX_ID, query=query)
+        self.assertIsNotNone(json_data)
+
+        json_data = self.jb.read(TEST_BOX_ID)
+        self.assertEqual(len([record for record in json_data if TEST_DATA_KEY_1 in record and record[TEST_DATA_KEY_1] == TEST_DATA_VALUE_1]), 1)
+        self.assertEqual(len([record for record in json_data if TEST_DATA_KEY_2 in record and record[TEST_DATA_KEY_2] == TEST_DATA_VALUE_2]), 0)
 
 
 if __name__ == '__main__':
