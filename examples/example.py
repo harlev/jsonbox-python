@@ -35,11 +35,17 @@ print(jb.read(MY_BOX_ID, limit=1))
 print(jb.read(MY_BOX_ID, skip=1))
 
 # update data
-data = {"name": "Bob", "age": "25"}
+data = {"name": "Bob", "age": 23}
 jb.update(data, MY_BOX_ID, record_ids[0])
 
 # read updated data
+print(jb.read(MY_BOX_ID))
 print(jb.read(MY_BOX_ID, record_ids[0]))
 
+# delete records matching to query
+print(jb.delete(MY_BOX_ID, query="age:=23"))
+
 # delete records
-jb.delete(MY_BOX_ID, record_ids)
+jb.delete(MY_BOX_ID, record_ids[1])
+
+

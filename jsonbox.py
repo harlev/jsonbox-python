@@ -69,14 +69,23 @@ class JsonBox:
         response = requests.put(url, json=data)
         return self._check_response(response)
 
-    def delete(self, box_id, record_ids):
-        if isinstance(record_ids, list):
-            result = []
-            for record_id in record_ids:
-                result.append(self._delete_one(box_id, record_id))
-            return result
-        else:
-            return self._delete_one(box_id, record_ids)
+    def delete(self, box_id, record_ids=None, query=None):
+        if record_ids:
+            if isinstance(record_ids, list):
+                result = []
+                for record_id in record_ids:
+                    result.append(self._delete_one(box_id, record_id))
+                return result
+            else:
+                return self._delete_one(box_id, record_ids)
+        elif query:
+            return self._delete_query(box_id, query)
+
+    def _delete_query(self, box_id, query):
+        url = self._get_url(box_id, query=query)
+
+        response = requests.delete(url)
+        return self._check_response(response)
 
     def _delete_one(self, box_id, record_id):
         url = self._get_url(box_id, record_id)
