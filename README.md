@@ -49,14 +49,18 @@ print(jb.read(MY_BOX_ID, limit=1))
 print(jb.read(MY_BOX_ID, skip=1))
 
 # update data
-data = {"name": "Bob", "age": "25"}
+data = {"name": "Bob", "age": 23}
 jb.update(data, MY_BOX_ID, record_ids[0])
 
 # read updated data
+print(jb.read(MY_BOX_ID))
 print(jb.read(MY_BOX_ID, record_ids[0]))
 
+# delete records matching to query
+print(jb.delete(MY_BOX_ID, query="age:=23"))
+
 # delete records
-jb.delete(MY_BOX_ID, record_ids)
+jb.delete(MY_BOX_ID, record_ids[1])
 ```
 
 ## Query Params
@@ -91,6 +95,11 @@ You can combine multiple fields by separating them with commas as shown below:
 ```
 name:arya%20stark,age:>13,isalive:true
 ```
+
+#### Deleting records
+There are two ways to delete records (see examples above for both)
+* Provide the `record_id`
+* Provide a `query` parameter, with the same syntax used for filtering on read 
 
 ## Use your own instance of jsonbox
 ```
