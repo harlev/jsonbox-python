@@ -6,6 +6,7 @@ Python wrapper for https://jsonbox.io
     <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-yellow.svg" target="_blank" />
 </a>
 [![Downloads](https://pepy.tech/badge/jsonbox)](https://pepy.tech/project/jsonbox)
+[![Downloads](https://pepy.tech/badge/jsonbox/month)](https://pepy.tech/project/jsonbox/month)
 
 ## Installation
     pip install jsonbox
