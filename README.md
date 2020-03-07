@@ -7,7 +7,7 @@ Python wrapper for https://jsonbox.io
 </a>
 [![Downloads](https://pepy.tech/badge/jsonbox)](https://pepy.tech/project/jsonbox)
 [![Downloads](https://pepy.tech/badge/jsonbox/month)](https://pepy.tech/project/jsonbox/month)
-[![CircleCI](https://circleci.com/gh/harlev/jsonbox-python/tree/master.svg?style=shield)](https://circleci.com/gh/harlev/jsonbox-python//tree/master)
+[![CircleCI](https://circleci.com/gh/harlev/jsonbox-python/tree/master.svg?style=shield)](https://circleci.com/gh/harlev/jsonbox-python/tree/master)
 
 ## Installation
     pip install jsonbox
