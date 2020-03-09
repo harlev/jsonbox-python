@@ -1,4 +1,5 @@
 import requests
+import uuid
 from six.moves.urllib import parse
 
 
@@ -45,6 +46,10 @@ class JsonBox:
         else:
             return data[self.RECORD_ID_KEY]
 
+    @staticmethod
+    def get_new_api_key():
+        return str(uuid.uuid4())
+
     def read(self,
              box_id,
              collection_or_record=None,
@@ -57,19 +62,28 @@ class JsonBox:
         response = requests.get(url)
         return self._check_response(response)
 
-    def write(self, data, box_id, collection=None):
+    def write(self, data, box_id, collection=None, api_key=None):
         url = self._get_url(box_id, collection)
 
-        response = requests.post(url, json=data)
+        headers = self._get_headers(api_key)
+
+        response = requests.post(url, json=data, headers=headers)
         return self._check_response(response)
 
-    def update(self, data, box_id, record_id):
+    def _get_headers(self, api_key):
+        headers = None
+        if api_key:
+            headers = {"x-api-key": api_key}
+        return headers
+
+    def update(self, data, box_id, record_id, api_key=None):
         url = self._get_url(box_id, record_id)
+        headers = self._get_headers(api_key)
 
-        response = requests.put(url, json=data)
+        response = requests.put(url, json=data, headers=headers)
         return self._check_response(response)
 
-    def delete(self, box_id, record_ids=None, query=None):
+    def delete(self, box_id, record_ids=None, query=None, api_key=None):
         if record_ids:
             if isinstance(record_ids, list):
                 result = []
@@ -77,20 +91,22 @@ class JsonBox:
                     result.append(self._delete_one(box_id, record_id))
                 return result
             else:
-                return self._delete_one(box_id, record_ids)
+                return self._delete_one(box_id, record_ids, api_key=api_key)
         elif query:
-            return self._delete_query(box_id, query)
+            return self._delete_query(box_id, query, api_key=api_key)
 
-    def _delete_query(self, box_id, query):
+    def _delete_query(self, box_id, query, api_key=None):
         url = self._get_url(box_id, query=query)
+        headers = self._get_headers(api_key)
 
-        response = requests.delete(url)
+        response = requests.delete(url, headers=headers)
         return self._check_response(response)
 
-    def _delete_one(self, box_id, record_id):
+    def _delete_one(self, box_id, record_id, api_key=None):
         url = self._get_url(box_id, record_id)
+        headers = self._get_headers(api_key)
 
-        response = requests.delete(url)
+        response = requests.delete(url, headers=headers)
         return self._check_response(response)
 
     def _check_response(self, response):

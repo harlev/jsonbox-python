@@ -63,7 +63,25 @@ print(jb.delete(MY_BOX_ID, query="age:=23"))
 
 # delete records
 jb.delete(MY_BOX_ID, record_ids[1])
+
+# write to a private box
+MY_PRIVATE_BOX_ID = str(uuid.uuid4()).replace("-", "_")
+api_key = jb.get_new_api_key()
+result = jb.write(data, MY_PRIVATE_BOX_ID, api_key=api_key)
+record_id = jb.get_record_id(result)
+
+# update a private box
+data = {"name": "David", "age": 35}
+jb.update(data, MY_PRIVATE_BOX_ID, record_id, api_key=api_key)
+
+# delete a private box
+jb.delete(MY_PRIVATE_BOX_ID, record_id, api_key=api_key)
 ```
+
+## Private Box
+Add `api_key` to write/update/delete as shown above.  
+read is always accessible, even with out an `api_key`.  
+A valid and unique `api_key` can be generated using `get_new_api_key()`
 
 ## Query Params
 As supported (and documented) by https://github.com/vasanthv/jsonbox

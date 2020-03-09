@@ -3,6 +3,8 @@ import uuid
 from jsonbox import JsonBox
 
 TEST_BOX_ID = str(uuid.uuid4()).replace("-", "_")
+TEST_PRIVATE_BOX_ID = str(uuid.uuid4()).replace("-", "_")
+TEST_PRIVATE_BOX_ID_FAIL = str(uuid.uuid4()).replace("-", "_")
 TEST_COLLECTION_ID = "collection_427453"
 TEST_RECORD_ID = "test_sjdgfygsf2347623564twfgyu"
 TEST_DATA_KEY_1 = "gjsfdjghdjs"
@@ -104,6 +106,58 @@ class TestJsonBox(unittest.TestCase):
         json_data = self.jb.write(data, TEST_BOX_ID)
         self.assertIsNotNone(json_data)
         self.assertEqual(json_data[TEST_DATA_KEY_1], TEST_DATA_VALUE_1)
+
+    def test_write_box_api_key(self):
+        data = {
+            TEST_DATA_KEY_1: TEST_DATA_VALUE_1
+        }
+        api_key = self.jb.get_new_api_key()
+        json_data = self.jb.write(data, TEST_PRIVATE_BOX_ID, api_key=api_key)
+        self.assertIsNotNone(json_data)
+        self.assertEqual(json_data[TEST_DATA_KEY_1], TEST_DATA_VALUE_1)
+
+        record_id = self.jb.get_record_id(json_data)
+
+        json_data = self.jb.read(TEST_PRIVATE_BOX_ID, record_id)
+        self.assertIsNotNone(json_data)
+        self.assertEqual(json_data[TEST_DATA_KEY_1], TEST_DATA_VALUE_1)
+
+        data = {
+            TEST_DATA_KEY_2: TEST_DATA_VALUE_2
+        }
+        self.jb.update(data, TEST_PRIVATE_BOX_ID, record_id, api_key=api_key)
+
+        json_data = self.jb.read(TEST_PRIVATE_BOX_ID, record_id)
+        self.assertIsNotNone(json_data)
+        self.assertEqual(json_data[TEST_DATA_KEY_2], TEST_DATA_VALUE_2)
+
+        json_data = self.jb.delete(TEST_PRIVATE_BOX_ID, record_id, api_key=api_key)
+        self.assertIsNotNone(json_data)
+
+        self.assertRaises(ValueError, self.jb.read, TEST_PRIVATE_BOX_ID, record_id)
+
+    def test_write_box_api_key_fail(self):
+        data = {
+            TEST_DATA_KEY_1: TEST_DATA_VALUE_1
+        }
+        api_key = self.jb.get_new_api_key()
+        json_data = self.jb.write(data, TEST_PRIVATE_BOX_ID_FAIL, api_key=api_key)
+        self.assertIsNotNone(json_data)
+        self.assertEqual(json_data[TEST_DATA_KEY_1], TEST_DATA_VALUE_1)
+
+        record_id = self.jb.get_record_id(json_data)
+
+        json_data = self.jb.read(TEST_PRIVATE_BOX_ID_FAIL, record_id)
+        self.assertIsNotNone(json_data)
+        self.assertEqual(json_data[TEST_DATA_KEY_1], TEST_DATA_VALUE_1)
+
+        data = {
+            TEST_DATA_KEY_2: TEST_DATA_VALUE_2
+        }
+        self.assertRaises(ValueError, self.jb.update, data, TEST_PRIVATE_BOX_ID_FAIL, record_id)
+
+        self.assertRaises(ValueError, self.jb.delete, TEST_PRIVATE_BOX_ID_FAIL, record_id)
+
 
     def test_write_box_collection(self):
         data = {
