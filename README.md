@@ -1,5 +1,5 @@
 # jsonbox-python
-Python wrapper for https://jsonbox.io
+Python wrapper for https://jsonbox.io (with support for V2 festures)
 
 [![PyPI version](https://badge.fury.io/py/jsonbox.svg)](https://badge.fury.io/py/jsonbox)
 <a href="https://github.com/harlev/jsonbox-python/blob/master/LICENSE">
