@@ -1,8 +1,7 @@
-import uuid
 from jsonbox import JsonBox
 
 # generate unique box id
-MY_BOX_ID = str(uuid.uuid4()).replace("-", "_")
+MY_BOX_ID = JsonBox.get_new_box_id()
 
 # create instance
 jb = JsonBox()
@@ -20,6 +19,9 @@ print(jb.read(MY_BOX_ID, record_ids[0]))
 
 # read all records in box
 print(jb.read(MY_BOX_ID))
+
+# get metadata for box
+print(jb.get_meta(MY_BOX_ID))
 
 # read all records in box with sort
 print(jb.read(MY_BOX_ID, sort_by="age"))
@@ -49,7 +51,7 @@ print(jb.delete(MY_BOX_ID, query="age:=23"))
 jb.delete(MY_BOX_ID, record_ids[1])
 
 # write to a private box
-MY_PRIVATE_BOX_ID = str(uuid.uuid4()).replace("-", "_")
+MY_PRIVATE_BOX_ID = JsonBox.get_new_box_id()
 api_key = jb.get_new_api_key()
 result = jb.write(data, MY_PRIVATE_BOX_ID, api_key=api_key)
 record_id = jb.get_record_id(result)
@@ -60,5 +62,3 @@ jb.update(data, MY_PRIVATE_BOX_ID, record_id, api_key=api_key)
 
 # delete a private box
 jb.delete(MY_PRIVATE_BOX_ID, record_id, api_key=api_key)
-
-

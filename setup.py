@@ -6,7 +6,7 @@ setup(
     url='https://github.com/harlev/jsonbox-python',
     author="Ron Harlev",
     author_email="harlev@gmail.com",
-    version='1.1.0',
+    version='1.2.1',
     packages=['.'],
     license='MIT',
     long_description=open('README.md').read(),

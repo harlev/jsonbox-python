@@ -1,10 +1,9 @@
 import unittest
-import uuid
 from jsonbox import JsonBox
 
-TEST_BOX_ID = str(uuid.uuid4()).replace("-", "_")
-TEST_PRIVATE_BOX_ID = str(uuid.uuid4()).replace("-", "_")
-TEST_PRIVATE_BOX_ID_FAIL = str(uuid.uuid4()).replace("-", "_")
+TEST_BOX_ID = JsonBox.get_new_box_id()
+TEST_PRIVATE_BOX_ID = JsonBox.get_new_box_id()
+TEST_PRIVATE_BOX_ID_FAIL = JsonBox.get_new_box_id()
 TEST_COLLECTION_ID = "collection_427453"
 TEST_RECORD_ID = "test_sjdgfygsf2347623564twfgyu"
 TEST_DATA_KEY_1 = "gjsfdjghdjs"
@@ -46,6 +45,16 @@ class TestJsonBox(unittest.TestCase):
         json_data = self.jb.read(TEST_BOX_ID)
         self.assertIsNotNone(json_data)
         self.assertTrue(isinstance(json_data, list))
+
+    def test_get_meta(self):
+        data = [{"name": "first", "age": "25"}, {"name": "second", "age": "19"}]
+        box_id = TEST_BOX_ID + "_meta"
+        result = self.jb.write(data, box_id)
+
+        json_data = self.jb.get_meta(box_id)
+        self.assertIsNotNone(json_data)
+        self.assertEqual(json_data["_count"], 2)
+        self.assertIsNotNone(json_data["_createdOn"])
 
     def test_read_sort(self):
         data = [{"name": "first", "age": "25"}, {"name": "second", "age": "19"}]

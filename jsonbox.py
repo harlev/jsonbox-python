@@ -40,6 +40,11 @@ class JsonBox:
 
         return url
 
+    def _get_meta_url(self, box_id):
+        url = "{0}/_meta/{1}".format(self.service_host, box_id)
+
+        return url
+
     def get_record_id(self, data):
         if isinstance(data, list):
             return [item[self.RECORD_ID_KEY] for item in data]
@@ -50,6 +55,10 @@ class JsonBox:
     def get_new_api_key():
         return str(uuid.uuid4())
 
+    @staticmethod
+    def get_new_box_id():
+        return str(uuid.uuid4()).replace("-", "_")
+
     def read(self,
              box_id,
              collection_or_record=None,
@@ -58,6 +67,12 @@ class JsonBox:
              limit=None,
              query=None):
         url = self._get_url(box_id, collection_or_record, sort_by, skip, limit, query)
+
+        response = requests.get(url)
+        return self._check_response(response)
+
+    def get_meta(self, box_id):
+        url = self._get_meta_url(box_id)
 
         response = requests.get(url)
         return self._check_response(response)
