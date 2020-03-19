@@ -47,6 +47,16 @@ class TestJsonBox(unittest.TestCase):
         self.assertIsNotNone(json_data)
         self.assertTrue(isinstance(json_data, list))
 
+    def test_get_meta(self):
+        data = [{"name": "first", "age": "25"}, {"name": "second", "age": "19"}]
+        box_id = TEST_BOX_ID + "_meta"
+        result = self.jb.write(data, box_id)
+
+        json_data = self.jb.get_meta(box_id)
+        self.assertIsNotNone(json_data)
+        self.assertEqual(json_data["_count"], 2)
+        self.assertIsNotNone(json_data["_createdOn"])
+
     def test_read_sort(self):
         data = [{"name": "first", "age": "25"}, {"name": "second", "age": "19"}]
         box_id = TEST_BOX_ID + "_sort"
