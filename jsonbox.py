@@ -55,6 +55,10 @@ class JsonBox:
     def get_new_api_key():
         return str(uuid.uuid4())
 
+    @staticmethod
+    def get_new_box_id():
+        return str(uuid.uuid4()).replace("-", "_")
+
     def read(self,
              box_id,
              collection_or_record=None,
