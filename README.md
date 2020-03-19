@@ -37,6 +37,9 @@ print(jb.read(MY_BOX_ID, record_ids[0]))
 # read all records in box
 print(jb.read(MY_BOX_ID))
 
+# get metadata for box
+print(jb.get_meta(MY_BOX_ID))
+
 # read all records in box with sort
 print(jb.read(MY_BOX_ID, sort_by="age"))
 
